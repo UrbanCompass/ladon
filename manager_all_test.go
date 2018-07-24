@@ -98,6 +98,12 @@ func TestManagers(t *testing.T) {
 		}
 	})
 
+	t.Run("type=concurrent create", func(t *testing.T) {
+		for k, s := range managers {
+			t.Run(fmt.Sprintf("manager=%s", k), TestHelperCreateWithConcurrency(s))
+		}
+	})
+
 	t.Run("type=find", func(t *testing.T) {
 		for k, s := range map[string]Manager{
 			"postgres": managers["postgres"],

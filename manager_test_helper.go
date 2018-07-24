@@ -23,6 +23,7 @@ package ladon
 import (
 	"fmt"
 	"reflect"
+	"sync"
 	"testing"
 
 	"github.com/pborman/uuid"
@@ -463,6 +464,59 @@ func TestHelperCreateGetDelete(s Manager) func(t *testing.T) {
 				_, err := s.Get(c.GetID())
 				assert.Error(t, err)
 			})
+		}
+	}
+}
+
+func TestHelperCreateWithConcurrency(s Manager) func(t *testing.T) {
+	return func(t *testing.T) {
+		uniqueResource := uuid.New()
+		uniqueAction := uuid.New()
+		concurrentPolicies := []*DefaultPolicy{
+			{
+				ID:          uuid.New(),
+				Description: "description",
+				Subjects:    []string{"u0"},
+				Effect:      AllowAccess,
+				Resources:   []string{uniqueResource},
+				Actions:     []string{uniqueAction},
+				Conditions:  Conditions{},
+			},
+			{
+				ID:          uuid.New(),
+				Description: "description",
+				Subjects:    []string{"u1"},
+				Effect:      AllowAccess,
+				Resources:   []string{uniqueResource},
+				Actions:     []string{uniqueAction},
+				Conditions:  Conditions{},
+			},
+			{
+				ID:          uuid.New(),
+				Description: "description",
+				Subjects:    []string{"u2"},
+				Effect:      AllowAccess,
+				Resources:   []string{uniqueResource},
+				Actions:     []string{uniqueAction},
+				Conditions:  Conditions{},
+			},
+		}
+		var wg sync.WaitGroup
+		var success = make([]bool, len(concurrentPolicies))
+		for i, p := range concurrentPolicies {
+			wg.Add(1)
+			go func(i int, p Policy) {
+				defer wg.Done()
+				if err := s.Create(p); err == nil {
+					success[i] = true
+				} else {
+					fmt.Printf("Error in creating policy #%d: %s\n", i, err)
+				}
+			}(i, p)
+		}
+		wg.Wait()
+		for _, s := range success {
+			require.True(t, s)
 		}
 	}
 }
