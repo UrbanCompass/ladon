@@ -25,8 +25,8 @@ import (
 	"log"
 	"testing"
 
-	. "github.com/ory/ladon"
-	. "github.com/ory/ladon/manager/memory"
+	. "github.com/UrbanCompass/ladon"
+	. "github.com/UrbanCompass/ladon/manager/memory"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -8,7 +8,7 @@ env:
 
 language: go
 
-go_import_path: github.com/ory/ladon
+go_import_path: github.com/UrbanCompass/ladon
 
 go:
   - 1.9

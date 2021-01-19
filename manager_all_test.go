@@ -27,10 +27,10 @@ import (
 	"sync"
 	"testing"
 
-	. "github.com/ory/ladon"
-	"github.com/ory/ladon/integration"
-	. "github.com/ory/ladon/manager/memory"
-	. "github.com/ory/ladon/manager/sql"
+	. "github.com/UrbanCompass/ladon"
+	"github.com/UrbanCompass/ladon/integration"
+	. "github.com/UrbanCompass/ladon/manager/memory"
+	. "github.com/UrbanCompass/ladon/manager/sql"
 	"github.com/stretchr/testify/require"
 )
 

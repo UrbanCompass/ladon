@@ -27,9 +27,9 @@ import (
 	"log"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/ory/ladon"
-	. "github.com/ory/ladon"
-	"github.com/ory/ladon/compiler"
+	"github.com/UrbanCompass/ladon"
+	. "github.com/UrbanCompass/ladon"
+	"github.com/UrbanCompass/ladon/compiler"
 	"github.com/pkg/errors"
 )
 
